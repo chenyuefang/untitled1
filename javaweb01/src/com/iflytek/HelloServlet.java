@@ -1,6 +1,8 @@
 package com.iflytek;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -41,6 +43,8 @@ public class HelloServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		
 		// 调到某个页面上去   hello.jsp  动态网页了
 		System.out.println("执行了doGet函数...");
 		
@@ -50,13 +54,26 @@ public class HelloServlet extends HttpServlet {
 		
 		// 如何将页面上请求的条件参数获取到 request.getParamter()方法来获取请求条件
 		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		
+		if (!("admin".equals(username) && "admin".equals(password))) {
+			request.setAttribute("error", "用户名或者密码错误");
+			request.getRequestDispatcher("index.jsp").forward(request, response);
+			return;
+		}
 		System.out.println(username);
 		
 		// 如何将处理后的数据 传递给新的响应页面 request.setAttribute
-		request.setAttribute("user", username);
-		
-		request.getRequestDispatcher("hello.jsp").forward(request, response);
+		DBUtil util = new DBUtil();
+		request.setAttribute("users", util.queryAllUser());
+		// request
+		request.getSession().setAttribute("users", util.queryAllSessionUser());
+		// session
+		request.getSession().getServletContext().setAttribute("users", util.queryAllApplicationUser());
+		// application
+		request.getRequestDispatcher("user/hello.jsp").forward(request, response);
 		// servlet执行顺序： 构造函数---》 init函数---> 请求方法（doGet\doPost\doPut\doDelete）---> doDestroy
+		// response.getWriter().write("");
 	}
 
 	/**
