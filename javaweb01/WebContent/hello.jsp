@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ page import="java.util.List, com.iflytek.User,java.text.SimpleDateFormat" %>   
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+		 pageEncoding="UTF-8"%>
+<%@ page import="java.util.List, com.iflytek.User,java.text.SimpleDateFormat" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
@@ -18,19 +18,19 @@
 			<th>身份证</th>
 			<th>出生年月</th>
 		</tr>
-		<!-- 
+		<!--
 			el表达式： 取request session application 属性中的值
 			顺序： request key aaa session key aaa application key aaa
 			    先从request范围取，没有？  session范围中取， 没有 ？ application中取
-		 
-		 
-		 <c:choose>
-		 	<c:when test=""></c:when>
-		 	<c:when test=""></c:when>
-		 	<c:otherwise>
-		 	</c:otherwise>
-		 </c:choose>
 		 -->
+
+		 <%--<c:choose>--%>
+		 	<%--<c:when test=""></c:when>--%>
+		 	<%--<c:when test=""></c:when>--%>
+		 	<%--<c:otherwise>--%>
+		 	<%--</c:otherwise>--%>
+		 <%--</c:choose>--%>
+
 		 <c:forEach items="${users}" var="user" varStatus="status">
 			<tr <c:if test='${status.index % 2 == 1}'> style="background-color:#eee;" </c:if>>
 				<td>
