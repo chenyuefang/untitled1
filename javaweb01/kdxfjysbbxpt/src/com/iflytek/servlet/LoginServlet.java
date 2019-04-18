@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.iflytek.pojo.User;
+import com.iflytek.service.UserService;
+
 /**
  * Servlet implementation class LoginServlet
  */
@@ -52,11 +55,27 @@ public class LoginServlet extends HttpServlet {
 		String rememberMe = request.getParameter("rememberMe");
 		
 		String verCode = (String)request.getSession().getAttribute("text");
-		if (!verCode.equals(image)) {
+		if (!verCode.equalsIgnoreCase(image)) {
 			request.setAttribute("error", "验证码输入错误");
 			request.getRequestDispatcher("jsp/login.jsp").forward(request, response);
 			return;
 		}
+		
+		/**
+		 * 	业务处理
+		 *	1、需要业务处理的javabean Model类   ----->  service 
+		 *  2、在service包下面来进行创建 UserService -----> 为了实现某些功能
+		 *  3、在UserService类中写相关操作的方法 -----> User login(String username, String password)
+		 *  4、编写login函数（方法）来实现登录功能 ------>  通过返回User对象来判断（User == null 用户名密码错误）
+		 */
+		 UserService service = new UserService();
+		 User u = service.login(username, password);
+		 if (u == null) {
+			 // 选择视图
+			 request.setAttribute("error", "用户名或者密码错误");
+			 request.getRequestDispatcher("jsp/login.jsp").forward(request, response);
+			 return;
+		 }
 		
 		response.sendRedirect("index.jsp");
 	}
