@@ -31,6 +31,7 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getRequestDispatcher("jsp/login.jsp").forward(request, response);
+//		throw new ServletException("系统错误");
 	}
 
 	/**
@@ -48,7 +49,6 @@ public class LoginServlet extends HttpServlet {
 		 * 
 		 * 7、选择合适的view 页面进行跳转
 		 */
-		request.setCharacterEncoding("UTF-8");
 		
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
@@ -56,7 +56,7 @@ public class LoginServlet extends HttpServlet {
 		String rememberMe = request.getParameter("rememberMe");
 		
 		/**
-		  *    设置记住我
+		 * 设置记住我
 		 * 
 		 */
 		Cookie nameCookie = new Cookie("username", username);
@@ -105,13 +105,23 @@ public class LoginServlet extends HttpServlet {
 	     *  2、我们使用response.sendRedirect方法，将我的main.jsp这个暴露出来（不安全）
 	     *  
 	     *  1） response.sendRedirct 方式跳转页面与 request.getRequestDispatcher("jsp/login.jsp").forward跳转页面的区别
-	     *  2）Filter技术：过滤器的作用
+	     *  2） Filter技术：过滤器的作用,可以过滤请求
 	     *  
 	     *  response.sendRedirct：重定向方式跳转页面，暴露了请求的资源 ，不能够将request数据传递给页面
 	     *  forward方式：forward方式页面转发，不暴露请求的资源，可以将reqeust数据传递给页面
+	     *  
+	     *  Filter:能做哪些事情？
+	     *  1、登录校验 --- 过滤器没有登录时不能访问系统资源
+	     *  2、过滤一些重要的系统资源如 .jsp .css .js ......
+	     *  3、统一设置请求的系统编码格式
+	     *  4、可以统一设置系统的错误信息
+	     *  
+	     *  特性：统一设置，统一处理  需要使用filter
 	     */
 	    
 //		response.sendRedirect("jsp/main.jsp");
+	    
 	    request.getRequestDispatcher("jsp/main.jsp").forward(request, response);
+	    
 	}
 }
