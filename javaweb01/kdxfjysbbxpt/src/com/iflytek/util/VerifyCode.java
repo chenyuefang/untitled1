@@ -52,7 +52,7 @@ public class VerifyCode {
             int y2 = r.nextInt(h); 
             g2.setStroke(new BasicStroke(1.5F)); 
             g2.setColor(Color.BLUE); //干扰线是蓝色
-            g2.drawLine(x1, y1, x2, y2);//画线
+//            g2.drawLine(x1, y1, x2, y2);//画线
         }
     }
 
@@ -86,7 +86,7 @@ public class VerifyCode {
             g2.drawString(s, x, h-5); //画图
         }
         this.text = sb.toString(); //把生成的字符串赋给了this.text
-        drawLine(image); //添加干扰线
+//        drawLine(image); //添加干扰线
         return image;       
     }
 

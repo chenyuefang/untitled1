@@ -3,6 +3,7 @@ package com.iflytek.servlet;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,7 +30,7 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.sendRedirect("jsp/login.jsp");
+		request.getRequestDispatcher("jsp/login.jsp").forward(request, response);
 	}
 
 	/**
@@ -54,6 +55,23 @@ public class LoginServlet extends HttpServlet {
 		String image = request.getParameter("image");
 		String rememberMe = request.getParameter("rememberMe");
 		
+		/**
+		  *    设置记住我
+		 * 
+		 */
+		Cookie nameCookie = new Cookie("username", username);
+        Cookie passwordCookie = new Cookie("password", password);
+        nameCookie.setPath(request.getContextPath()+"/");      //设置Cookie的有效路径
+        passwordCookie.setPath(request.getContextPath()+"/");//设置Cookie的有效路径
+        if(rememberMe != null && "yes".equals(rememberMe)){            //有记住我，就设置cookie的保存时间
+            nameCookie.setMaxAge(7*24*60*60);//设置日期为一星期
+            passwordCookie.setMaxAge(7*24*60*60);
+        }else{                             //没有记住我，设置cookie的时间为0
+            nameCookie.setMaxAge(0);
+            passwordCookie.setMaxAge(0);
+        }
+        
+		
 		String verCode = (String)request.getSession().getAttribute("text");
 		if (!verCode.equalsIgnoreCase(image)) {
 			request.setAttribute("error", "验证码输入错误");
@@ -76,7 +94,24 @@ public class LoginServlet extends HttpServlet {
 			 request.getRequestDispatcher("jsp/login.jsp").forward(request, response);
 			 return;
 		 }
-		
-		response.sendRedirect("index.jsp");
+		 
+		response.addCookie(nameCookie);
+	    response.addCookie(passwordCookie);
+	    request.getSession().setAttribute("user", username);
+	    
+	    /**
+	     * 要做什么事情：
+	     * 	1、当我没有登录时候，不能够访问main.jsp主界面
+	     *  2、我们使用response.sendRedirect方法，将我的main.jsp这个暴露出来（不安全）
+	     *  
+	     *  1） response.sendRedirct 方式跳转页面与 request.getRequestDispatcher("jsp/login.jsp").forward跳转页面的区别
+	     *  2）Filter技术：过滤器的作用
+	     *  
+	     *  response.sendRedirct：重定向方式跳转页面，暴露了请求的资源 ，不能够将request数据传递给页面
+	     *  forward方式：forward方式页面转发，不暴露请求的资源，可以将reqeust数据传递给页面
+	     */
+	    
+//		response.sendRedirect("jsp/main.jsp");
+	    request.getRequestDispatcher("jsp/main.jsp").forward(request, response);
 	}
 }

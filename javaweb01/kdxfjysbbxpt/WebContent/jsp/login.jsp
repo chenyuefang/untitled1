@@ -28,8 +28,6 @@
 
   <body>
     <div class="container">
-      
-      
       <form class="form-signin" action="/kdxfjysbbxpt/LoginServlet" method="post">
 	      <c:if test="${error != null }">
 	      	<div class="alert alert-danger" role="alert">
@@ -38,14 +36,14 @@
 	      </c:if>
         <h2 class="form-signin-heading">科大讯飞教育设备报修平台</h2>
         <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="text" name="username" id="inputEmail" class="form-control" placeholder="用户名" required autofocus>
+        <input type="text" name="username" id="inputEmail" class="form-control" value="${cookie.username.value }" placeholder="用户名" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="密码" required>
+        <input type="password" name="password" id="inputPassword" value="${cookie.password.value}"  class="form-control" placeholder="密码" required>
         <input class="form-control" type="text" style="width:300px;display:inline-block;" placeholder="验证码" name="image"> 
         <img src="/kdxfjysbbxpt/VerifyCodeServlet" style="border-radius: 4px;" onclick="flushVerityCode()" id="VerifyCodeServlet"> 
         <div class="checkbox">
           <label style="color:#FFF">
-            <input type="checkbox" name="rememberMe" value="remember-me"> 记住我
+            <input type="checkbox" name="rememberMe" value="yes" <c:if test='${cookie.username!=null}' >checked="true"</c:if>> 记住我
           </label>
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>

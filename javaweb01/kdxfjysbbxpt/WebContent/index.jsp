@@ -33,6 +33,6 @@ html+css+js+jquery+ajax+bootstrap+servlet+jsp
 	   画页面、写servlet、service、dao、定义对象（User）
  -->
 <body>
-	Hello  科大讯飞教育设备报修平台
+	Hello  ${user}
 </body>
 </html>
