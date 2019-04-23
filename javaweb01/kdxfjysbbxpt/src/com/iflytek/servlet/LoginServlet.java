@@ -1,6 +1,8 @@
 package com.iflytek.servlet;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -8,7 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.iflytek.pojo.Menu;
 import com.iflytek.pojo.User;
+import com.iflytek.service.MenuService;
 import com.iflytek.service.UserService;
 
 /**
@@ -100,7 +104,8 @@ public class LoginServlet extends HttpServlet {
 	    request.getSession().setAttribute("user", username);
 	    
 	    /**
-	     * 要做什么事情：
+	     * 2019-4-22
+	          * 要做什么事情：
 	     * 	1、当我没有登录时候，不能够访问main.jsp主界面
 	     *  2、我们使用response.sendRedirect方法，将我的main.jsp这个暴露出来（不安全）
 	     *  
@@ -116,10 +121,28 @@ public class LoginServlet extends HttpServlet {
 	     *  3、统一设置请求的系统编码格式
 	     *  4、可以统一设置系统的错误信息
 	     *  
-	     *  特性：统一设置，统一处理  需要使用filter
+	          *  特性：统一设置，统一处理  需要使用filter
 	     */
 	    
 //		response.sendRedirect("jsp/main.jsp");
+	    
+	    /**
+	     * 2019-4-23
+	     * 1、菜单的读取 ---》 来源数据库或者来源内存
+	     * 		采用内存的方式来实现
+	     * 		service --> dao
+	     *    1) 定义一个Menu类来存储菜单信息（ID,NAME,URL,ICO）
+	     *    2) 定义一个MenuService来获取系统中的菜单的信息
+	     *    3) 定义一个MenuDao 来获取数据库的信息（自定义创建Menu信息）
+	     * 2、列表的实现 ---》 数据的读取、修改、新增、删除、分页
+	     * 		读取、分页
+	     */
+	    
+	    // 获取菜单数据
+	    MenuService menuService = new MenuService();
+	    List<Menu> menuList = menuService.getMenus(username);
+	    request.setAttribute("menuList", menuList);
+	    
 	    
 	    request.getRequestDispatcher("jsp/main.jsp").forward(request, response);
 	    
