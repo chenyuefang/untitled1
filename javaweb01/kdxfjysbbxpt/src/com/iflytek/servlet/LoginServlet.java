@@ -136,12 +136,15 @@ public class LoginServlet extends HttpServlet {
 	     *    3) 定义一个MenuDao 来获取数据库的信息（自定义创建Menu信息）
 	     * 2、列表的实现 ---》 数据的读取、修改、新增、删除、分页
 	     * 		读取、分页
+	     * 	  1)  填写一个servlet ---> 展示页面数据  UserServlet
+	     *    2) Get请求中，使用UserService获取数据库数据并保存到 request 属性数据中去
+	     *    3) 在页面中使用 jstl标签 将数据循环迭代出来
 	     */
 	    
 	    // 获取菜单数据
 	    MenuService menuService = new MenuService();
 	    List<Menu> menuList = menuService.getMenus(username);
-	    request.setAttribute("menuList", menuList);
+	    request.getSession().setAttribute("menuList", menuList);
 	    
 	    
 	    request.getRequestDispatcher("jsp/main.jsp").forward(request, response);

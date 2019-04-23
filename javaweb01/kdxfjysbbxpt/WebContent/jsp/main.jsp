@@ -100,7 +100,7 @@
 						  	<ul class="nav nav-pills nav-stacked collapse sub-ul" id="menu${menu.id}">
 						  		<c:forEach items="${menu.children}" var="subMenu">
 									<li role="presentation">
-								  		<a href="#" class="fontColor"><span class="${subMenu.ico }"></span>&nbsp;&nbsp;${subMenu.name }</a>
+								  		<a href="/kdxfjysbbxpt/UserServlet" target="mainFrame" class="fontColor"><span class="${subMenu.ico }"></span>&nbsp;&nbsp;${subMenu.name }</a>
 								  	</li>
 							  	</c:forEach>
 							  	<!-- <li role="presentation"><a href="#" class="fontColor"><span class="glyphicon glyphicon-cog"></span>&nbsp;&nbsp;新增设备</a></li>
@@ -122,7 +122,7 @@
 					</ul>
 				</div>
 				<div class="col-md-10" style="height:100%;">	
-					<iframe width="100%" height="100%" src="/kdxfjysbbxpt/UserServlet" border="0"></iframe>
+					<iframe name="mainFrame" width="100%" height="100%" src="/kdxfjysbbxpt/UserServlet" border="0"></iframe>
 				</div>
 			</div>
 		</div>
@@ -141,4 +141,5 @@
 		console.log(h);
 		$("#container").height(h - $("#header").height() - 30);
 	});
+	
 </script>

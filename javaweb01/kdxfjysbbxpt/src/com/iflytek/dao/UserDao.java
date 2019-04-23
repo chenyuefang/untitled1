@@ -5,7 +5,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.iflytek.pojo.User;
 
@@ -85,6 +87,77 @@ public class UserDao {
 			e.printStackTrace();
 		}
 		return user;
+	}
+	
+	public List<User> queryAll(){
+		List<User> userList = new ArrayList<User>();
+		User user = null;
+		String sql = "select id, username, password, age, birthday, sex, cardNo from user";
+		try {
+			PreparedStatement psmt = conn.prepareStatement(sql);
+			
+			ResultSet rs = psmt.executeQuery();
+			while(rs.next()) {
+				int id = rs.getInt("id");
+				String un = rs.getString("username");
+				String pw = rs.getString("password");
+				int age = rs.getInt("age");
+				Date birthday = rs.getDate("birthday");
+				int sex = rs.getInt("sex");
+				String cardNo = rs.getString("cardNo");
+				user = new User(un, pw, age, birthday, sex, cardNo);
+				user.setId(id);
+				userList.add(user);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return userList;
+	}
+	
+	// start 默认是从0开始
+	public List<User> queryPageAll(int start, int prePageNum){
+		List<User> userList = new ArrayList<User>();
+		User user = null;
+		String sql = "select id, username, password, age, birthday, sex, cardNo from user limit ?,?";
+		try {
+			PreparedStatement psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, start);
+			psmt.setInt(2, prePageNum);
+			
+			ResultSet rs = psmt.executeQuery();
+			while(rs.next()) {
+				int id = rs.getInt("id");
+				String un = rs.getString("username");
+				String pw = rs.getString("password");
+				int age = rs.getInt("age");
+				Date birthday = rs.getDate("birthday");
+				int sex = rs.getInt("sex");
+				String cardNo = rs.getString("cardNo");
+				user = new User(un, pw, age, birthday, sex, cardNo);
+				user.setId(id);
+				userList.add(user);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return userList;
+	}
+	
+	public int countAll(){
+		String sql = "select count(1) from user";
+		int count = 0;
+		try {
+			PreparedStatement psmt = conn.prepareStatement(sql);
+			
+			ResultSet rs = psmt.executeQuery();
+			while(rs.next()) {
+				count = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
 	}
 	
 	public static void main(String[] args) {
