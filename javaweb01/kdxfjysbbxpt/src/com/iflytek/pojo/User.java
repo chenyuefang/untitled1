@@ -8,6 +8,7 @@ public class User {
 	private String password;
 	private int age;
 	private Date birthday;
+	private String birthdayStr;
 	private int sex;//(0 女生 1 男生)
 	private String cardNo;
 	
@@ -74,5 +75,13 @@ public class User {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getBirthdayStr() {
+		return birthdayStr;
+	}
+
+	public void setBirthdayStr(String birthdayStr) {
+		this.birthdayStr = birthdayStr;
 	}
 }

@@ -160,10 +160,38 @@ public class UserDao {
 		return count;
 	}
 	
+	public int add(User user){
+		String sql = "insert into user(username, password, age,birthday, sex, cardNo) values (?,?,?,?,?,?)";
+		try {
+			PreparedStatement psmt = conn.prepareStatement(sql);
+			conn.setAutoCommit(false);
+			psmt.setString(1, user.getUsername());
+			psmt.setString(2, user.getPassword());
+			psmt.setInt(3, user.getAge());
+			psmt.setString(4, user.getBirthdayStr());
+			psmt.setInt(5, user.getSex());
+			psmt.setString(6, user.getCardNo());
+			
+			int res = psmt.executeUpdate();
+			conn.commit();
+			return res;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			return -1;
+		}
+	}
+	
 	public static void main(String[] args) {
 		UserDao dao = new UserDao();
-		User user = dao.queryByUsernameAndPassword("user", "user");
-		System.out.println(user);
+//		User user = dao.queryByUsernameAndPassword("user", "user");
+//		System.out.println(user);
+		User user = new User("test1234","123456",18,new Date(),0,"33222");
+		dao.add(user);
 	}
 	
 }

@@ -39,4 +39,8 @@ public class UserService {
 		page.setTotalNum(count);
 		return page;
 	}
+	
+	public int addUser(User user) {
+		return dao.add(user);
+	}
 }

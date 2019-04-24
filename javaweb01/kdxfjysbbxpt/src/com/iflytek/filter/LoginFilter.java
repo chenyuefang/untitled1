@@ -72,6 +72,7 @@ public class LoginFilter implements Filter {
 		try {
 			chain.doFilter(request, response); // 执行相应的请求
 		} catch(ServletException e) {
+			e.printStackTrace();
 			req.setAttribute("error", "系统错误，请联系系统管理员");
 			req.setAttribute("errorMessage", e.getMessage());
 			req.setAttribute("errorDetail", e.getStackTrace()[3].toString());
