@@ -11,6 +11,7 @@ public class Menu implements Serializable{
 	private String url;
 	private List<Menu> children = new ArrayList<Menu>();
 	public Integer getId() {
+
 		return id;
 	}
 	public void setId(Integer id) {
@@ -20,18 +21,22 @@ public class Menu implements Serializable{
 		return name;
 	}
 	public void setName(String name) {
+
 		this.name = name;
 	}
 	public String getIco() {
+
 		return ico;
 	}
 	public void setIco(String ico) {
+
 		this.ico = ico;
 	}
 	public String getUrl() {
 		return url;
 	}
 	public void setUrl(String url) {
+
 		this.url = url;
 	}
 	public Menu(Integer id, String name, String ico, String url) {
@@ -45,9 +50,11 @@ public class Menu implements Serializable{
 		super();
 	}
 	public List<Menu> getChildren() {
+
 		return children;
 	}
 	public void setChildren(List<Menu> children) {
+
 		this.children = children;
 	}
 }
